@@ -53,7 +53,6 @@ app.get('/process', async (req, res) => {
 
 // Function to fetch real-time stock prices from Alpha Vantage
 async function fetchStockPrice(stockTicker) {
-    // const apiKey = process.env.ALPHA_VANTAGE_API_KEY;  // Set this in your environment variables
     const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockTicker}&apikey=1SMRBU9X0JEEJIQ0`;
     try {
         const response = await axios.get(url);
