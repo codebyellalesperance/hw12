@@ -2,15 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock Search</title>
 </head>
 <body>
-    <h1>Stock Search</h1>
+    <h1>Stock Search Form</h1>
     <form action="/process" method="GET">
-        <input type="text" name="search" placeholder="Enter stock ticker or company name">
-        <input type="radio" name="type" value="ticker" checked> Ticker
-        <input type="radio" name="type" value="company"> Company
+        <label for="search">Enter Ticker or Company Name:</label>
+        <input type="text" id="search" name="search" required>
+
+        <div>
+            <input type="radio" id="ticker" name="type" value="ticker" checked>
+            <label for="ticker">Stock Ticker</label>
+        </div>
+
+        <div>
+            <input type="radio" id="company" name="type" value="company">
+            <label for="company">Company Name</label>
+        </div>
+
         <button type="submit">Search</button>
     </form>
 </body>
 </html>
+
+<div id="results"></div>
+
+<script>
+document.querySelector('form').onsubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const query = new URLSearchParams(formData).toString();
+    const response = await fetch(`/process?${query}`);
+    const results = await response.json();
+    document.getElementById('results').innerHTML = results.map(result => 
+        `<div>
+            <p>Name: ${result.companyName}</p>
+            <p>Ticker: ${result.stockTicker}</p>
+            <p>Price: ${result.currentPrice || result.stockPrice}</p>
+        </div>`
+    ).join('');
+};
+</script>
