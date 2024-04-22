@@ -7,8 +7,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Ensure MongoDB URI is secured and not hard-coded in production
-const uri = process.env.MONGODB_URI || "your_fallback_mongodb_uri_here";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const uri = "mongodb+srv://ellalesperance1:5f0tswkweOirORqr@cluster0.l7npyes.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const client = new MongoClient(uri);
 
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
