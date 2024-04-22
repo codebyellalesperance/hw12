@@ -4,6 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #007BFF;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            margin-top: 10px;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #results {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
     <h1>Stock Search Form</h1>
@@ -23,24 +73,24 @@
 
         <button type="submit">Search</button>
     </form>
+
+    <div id="results"></div>
+
+    <script>
+    document.querySelector('form').onsubmit = async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const query = new URLSearchParams(formData).toString();
+        const response = await fetch(`/process?${query}`);
+        const results = await response.json();
+        document.getElementById('results').innerHTML = results.map(result => 
+            `<div>
+                <p>Name: ${result.companyName}</p>
+                <p>Ticker: ${result.stockTicker}</p>
+                <p>Price: ${result.currentPrice || result.stockPrice}</p>
+            </div>`
+        ).join('');
+    };
+    </script>
 </body>
 </html>
-
-<div id="results"></div>
-
-<script>
-document.querySelector('form').onsubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const query = new URLSearchParams(formData).toString();
-    const response = await fetch(`/process?${query}`);
-    const results = await response.json();
-    document.getElementById('results').innerHTML = results.map(result => 
-        `<div>
-            <p>Name: ${result.companyName}</p>
-            <p>Ticker: ${result.stockTicker}</p>
-            <p>Price: ${result.currentPrice || result.stockPrice}</p>
-        </div>`
-    ).join('');
-};
-</script>
