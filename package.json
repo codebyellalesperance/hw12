@@ -7,5 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ella L'Esperance",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.8",
+    "csv-parser": "^3.0.0",
+    "mongodb": "^6.5.0"
+  }
 }
